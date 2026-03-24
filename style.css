@@ -1,182 +1,204 @@
-/* --- SOS NEON PRO - MODERN CSS --- */
+/* --- SOS NEON ULTIMATE EDITION --- */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
 
-/* 1. Temel Ayarlar & Değişkenler (Renk Paleti) */
 :root {
-  --bg-color: #0a0e17; /* Çok Koyu Lacivert/Siyah */
-  --panel-bg: rgba(20, 26, 41, 0.8); /* Cam Efekti İçin Şeffaf Panel */
-  --neon-blue: #00f2ff; /* S oyuncusu için Turkuaz Neon */
-  --neon-pink: #ff0055; /* O oyuncusu için Pembe Neon */
-  --text-color: #ffffff;
-  --shadow-color: rgba(0, 0, 0, 0.5);
-  --border-radius: 15px;
-  --transition: all 0.3s ease;
-  --font-family: 'Poppins', sans-serif; /* Modern Yazı Tipi */
+  --bg-deep: #02050a;
+  --accent-cyan: #00f2ff;
+  --accent-pink: #ff0055;
+  --accent-yellow: #fffe00;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --neon-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+  --glitch-speed: 0.3s;
 }
 
-/* 2. Hareketli Arka Plan Efekti */
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
   padding: 0;
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 50%, #1a1f2e 0%, #02050a 100%),
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 100%, 100% 2px, 3px 100%;
+  font-family: 'Rajdhani', sans-serif;
+  color: #fff;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(-45deg, #0a0e17, #1a253a, #0a0e17, #141a29);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  font-family: var(--font-family);
-  color: var(--text-color);
-  overflow: hidden; /* Telefon ekranında kaydırmayı engeller */
-}
-
-/* 3. Ana Konteyner (Glassmorphism) */
-.container {
-  background: var(--panel-bg);
-  backdrop-filter: blur(10px); /* Cam Bulanıklığı */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 2rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  text-align: center;
-  width: 90%;
-  max-width: 400px; /* Telefonlar için ideal genişlik */
-  position: relative;
-  z-index: 1;
-}
-
-/* 4. Başlık ve Skor Paneli */
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(to right, var(--neon-blue), var(--neon-pink));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-}
-
-.score-board {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 1.5rem;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.player-score {
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-
-.player-s { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
-.player-o { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
-
-/* 5. Oyun Tahtası (Grid) */
-.board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 1.5rem;
-}
-
-/* 6. Hücreler (Cells) - En Kritik Görsel Alan */
-.cell {
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  height: 100px; /* Telefon ekranı için kare hücreler */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: var(--transition);
-  position: relative;
   overflow: hidden;
 }
 
-/* Hücreye Tıklama Efekti */
-.cell:active {
-  transform: scale(0.95);
-  background: rgba(255, 255, 255, 0.1);
+/* --- ANA KONTEYNER: CYBER-FRAME --- */
+.game-wrapper {
+  position: relative;
+  width: 95%;
+  max-width: 450px;
+  background: var(--glass);
+  backdrop-filter: blur(25px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 30px 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.05);
+  overflow: hidden;
 }
 
-/* Hover Efekti (Telefonda dokunma öncesi hafif belirir) */
-.cell:hover {
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-}
-
-/* S ve O Harflerinin Neon Renkleri */
-.cell.s {
-  color: var(--neon-blue);
-  text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
-  animation: neonPulseS 1.5s infinite;
-}
-
-.cell.o {
-  color: var(--neon-pink);
-  text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
-  animation: neonPulseO 1.5s infinite;
-}
-
-/* Harfler İçin Nabız (Pulse) Animasyonları */
-@keyframes neonPulseS {
-  0%, 100% { text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); }
-  50% { text-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue), 0 0 40px var(--neon-blue); }
-}
-
-@keyframes neonPulseO {
-  0%, 100% { text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); }
-  50% { text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink), 0 0 40px var(--neon-pink); }
-}
-
-/* 7. Butonlar (Reset) */
-.btn {
-  background: transparent;
-  border: 2px solid var(--neon-blue);
-  color: var(--neon-blue);
-  padding: 10px 20px;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: bold;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
-}
-
-.btn:hover {
-  background: var(--neon-blue);
-  color: var(--bg-color);
-  box-shadow: 0 0 20px var(--neon-blue);
-}
-
-/* 8. Kazanan Çizgisi Animasyonu */
-.winning-line {
+/* Dekoratif Köşe Çizgileri */
+.game-wrapper::before, .game-wrapper::after {
+  content: '';
   position: absolute;
-  background: #ffffff;
-  box-shadow: 0 0 15px #ffffff, 0 0 30px #ffffff;
-  border-radius: 5px;
-  z-index: 2;
-  transition: all 0.5s ease;
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--accent-cyan);
+}
+.game-wrapper::before { top: 0; left: 0; border-right: none; border-bottom: none; border-radius: 24px 0 0 0; }
+.game-wrapper::after { bottom: 0; right: 0; border-left: none; border-top: none; border-radius: 0 0 24px 0; }
+
+/* --- BAŞLIK: GLITCH EFEKTİ --- */
+.title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0;
+  position: relative;
+  color: #fff;
+  text-shadow: 0.05em 0 0 var(--accent-pink), -0.025em -0.05em 0 var(--accent-cyan),
+               0.025em 0.05em 0 var(--accent-yellow);
+  animation: glitch 1s infinite;
 }
 
-/* 9. Kariyer Paneli (Gelecek İçin Hazırlık) */
-.career-panel {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 10px;
+@keyframes glitch {
+  0% { text-shadow: 0.05em 0 0 var(--accent-pink), -0.025em -0.05em 0 var(--accent-cyan); }
+  14% { text-shadow: 0.05em 0 0 var(--accent-pink), -0.025em -0.05em 0 var(--accent-cyan); }
+  15% { text-shadow: -0.05em -0.025em 0 var(--accent-pink), 0.025em 0.025em 0 var(--accent-cyan); }
+  49% { text-shadow: -0.05em -0.025em 0 var(--accent-pink), 0.025em 0.025em 0 var(--accent-cyan); }
+  50% { text-shadow: 0.025em 0.05em 0 var(--accent-pink), 0.05em 0 0 var(--accent-cyan); }
+  99% { text-shadow: 0.025em 0.05em 0 var(--accent-pink), 0.05em 0 0 var(--accent-cyan); }
+  100% { text-shadow: -0.025em 0 0 var(--accent-pink), -0.025em -0.025em 0 var(--accent-cyan); }
+}
+
+/* --- KARİYER SKOR PANELI --- */
+.stats-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.stat-card {
+  background: rgba(0, 0, 0, 0.4);
+  border-left: 4px solid var(--accent-cyan);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.stat-card.o-player { border-left-color: var(--accent-pink); }
+
+.label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+.value { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; display: block; }
+
+/* --- OYUN TAHTASI: GRID --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.slot {
+  aspect-ratio: 1/1;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.slot:active { transform: scale(0.9); }
+
+.slot.s-mark {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 15px var(--accent-cyan), 0 0 30px var(--accent-cyan);
+  box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.2);
+}
+
+.slot.o-mark {
+  color: var(--accent-pink);
+  text-shadow: 0 0 15px var(--accent-pink), 0 0 30px var(--accent-pink);
+  box-shadow: inset 0 0 15px rgba(255, 0, 85, 0.2);
+}
+
+/* --- KARİYER SİSTEMİ: LEVEL BAR --- */
+.career-progress {
+  width: 100%;
+  height: 6px;
+  background: #111;
+  border-radius: 3px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 45%; /* Dinamik olacak */
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-pink));
+  box-shadow: 0 0 10px var(--accent-cyan);
+  border-radius: 3px;
+  transition: width 1s ease-in-out;
+}
+
+/* --- BUTONLAR: NEON CLICK --- */
+.control-btn {
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+  border: 2px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+.control-btn:hover {
+  background: var(--accent-cyan);
+  color: var(--bg-deep);
+  box-shadow: 0 0 30px var(--accent-cyan);
+}
+
+/* Scanline Efekti (Eski monitör çizgileri) */
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 10;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.05) 10%, rgba(0, 0, 0, 0.1) 100%);
+  opacity: 0.1;
+  position: absolute;
+  bottom: 100%;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% { bottom: 100%; }
+  100% { bottom: -100%; }
   }
