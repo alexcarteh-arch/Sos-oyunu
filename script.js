@@ -1,104 +1,108 @@
-// --- SOS ULTIMATE ENGINE ---
-let board = Array(9).fill(null);
-let currentPlayer = 'S';
-let scores = { S: 0, O: 0 };
-let career = JSON.parse(localStorage.getItem('sos_pro_ultimate')) || { xp: 0, level: 1, wins: 0, rank: 'ACEMİ' };
+let currentChat = "";
+let currentUser = null;
 
-const ranks = ["ACEMİ", "ÇAYLAK", "ASKER", "TEKNİSYEN", "USTA", "REİS", "EFSANE", "YIKILMAZ"];
-
-function initGame() {
-    const grid = document.getElementById('gameGrid');
-    grid.innerHTML = '';
-    board.fill(null);
-    scores = { S: 0, O: 0 };
-    currentPlayer = 'S';
-    
-    for (let i = 0; i < 9; i++) {
-        const slot = document.createElement('div');
-        slot.classList.add('slot');
-        slot.addEventListener('click', () => makeMove(i, slot));
-        grid.appendChild(slot);
+// 1. KAYIT VE GİRİŞ SİSTEMİ
+function registerUser() {
+    const user = document.getElementById('usernameInput').value;
+    const pass = document.getElementById('passwordInput').value;
+    if(user.length < 3 || pass.length < 5) {
+        document.getElementById('authStatus').innerText = "HATA: Geçersiz kullanıcı adı veya şifre.";
+        return;
     }
-    updateUI();
+    // Veritabanına Kayıt Simülasyonu
+    localStorage.setItem('neonChat_user_' + user, JSON.stringify({user, pass, profilePic: `https://i.pravatar.cc/150?u=${user}`}));
+    document.getElementById('authStatus').innerText = "BAŞARILI! Giriş yapabilirsiniz.";
 }
 
-function makeMove(index, element) {
-    if (board[index]) return;
-    
-    board[index] = currentPlayer;
-    element.innerText = currentPlayer;
-    element.classList.add(currentPlayer === 'S' ? 's-mark' : 'o-mark');
-    
-    if (navigator.vibrate) navigator.vibrate(50);
-    
-    let gainedPoint = checkSOS();
-    
-    if (!gainedPoint) {
-        currentPlayer = currentPlayer === 'S' ? 'O' : 'S';
+function loginUser() {
+    const user = document.getElementById('usernameInput').value;
+    const pass = document.getElementById('passwordInput').value;
+    const savedData = JSON.parse(localStorage.getItem('neonChat_user_' + user));
+
+    if(savedData && savedData.pass === pass) {
+        currentUser = savedData;
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('appScreen').classList.remove('hidden');
+        initApp();
     } else {
-        addXP(20); // SOS yapan 20 XP kazanır
+        document.getElementById('authStatus').innerText = "HATA: Kullanıcı bulunamadı veya şifre yanlış.";
     }
+}
+
+// 2. ANA UYGULAMA MANTIĞI
+function initApp() {
+    // Profil resmini güncelle vb.
+}
+
+function openChat(name) {
+    currentChat = name;
+    document.getElementById('targetName').innerText = name;
+    document.getElementById('chatWindow').classList.remove('hidden');
     
-    updateUI();
-    checkDraw();
+    // Mesajları şifreleme anahtarı simülasyonu (E2EE)
+    sessionStorage.setItem('e2ee_key', Math.random().toString(36).substring(2));
 }
 
-function checkSOS() {
-    const winPatterns = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Yatay
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Dikey
-        [0, 4, 8], [2, 4, 6]             // Çapraz
-    ];
-
-    let found = false;
-    winPatterns.forEach(pattern => {
-        const [a, b, c] = pattern;
-        if (board[a] === 'S' && board[b] === 'O' && board[c] === 'S') {
-            // Burası puanlama mantığıdır, SOS bulan oyuncuya puan ekler
-            scores[currentPlayer]++;
-            found = true;
-        }
-    });
-    return found;
+function closeChat() {
+    document.getElementById('chatWindow').classList.add('hidden');
 }
 
-function addXP(amount) {
-    career.xp += amount;
-    if (career.xp >= 100) {
-        career.level++;
-        career.xp = 0;
-        career.rank = ranks[Math.min(career.level - 1, ranks.length - 1)];
-        alert("SİSTEM GÜNCELLENDİ: RÜTBE " + career.rank);
-    }
-    saveData();
-}
+// 3. MESAJLAŞMA VE OTOMATİK CEVAP (YAZIYOR...)
+function sendMsg() {
+    const input = document.getElementById('msgInput');
+    const text = input.value.trim();
+    if (text === "") return;
 
-function saveData() {
-    localStorage.setItem('sos_pro_ultimate', JSON.stringify(career));
-}
+    // Şifreleme (Encryption) Simülasyonu
+    const e2eeKey = sessionStorage.getItem('e2ee_key');
+    const encryptedText = `[E2EE:${btoa(text)}:Key=${e2eeKey}]`;
+    console.log("Şifrelenmiş Mesaj Veritabanına Gidiyor: " + encryptedText);
 
-function updateUI() {
-    document.getElementById('xpBar').style.width = career.xp + '%';
-    document.getElementById('xpText').innerText = career.xp;
-    document.getElementById('lvl').innerText = career.level;
-    document.getElementById('rankDisplay').innerText = career.rank;
-    document.getElementById('scoreS').innerText = scores.S;
-    document.getElementById('scoreO').innerText = scores.O;
-    document.getElementById('turnDisplay').innerText = currentPlayer + " SIRASI";
-}
+    addMsgToBox(text, 'sent');
+    input.value = "";
+    document.getElementById('msgInput').focus();
 
-function checkDraw() {
-    if (!board.includes(null)) {
+    if (navigator.vibrate) navigator.vibrate(20);
+
+    // Karşı taraf "Yazıyor..." simülasyonu
+    setTimeout(() => {
+        document.getElementById('targetStatus').innerHTML = "<i>Yazıyor...</i>";
         setTimeout(() => {
-            alert("OYUN BİTTİ! S: " + scores.S + " - O: " + scores.O);
-            if(scores.S > scores.O) career.wins++;
-            initGame();
-        }, 500);
-    }
+            receiveMsg("Harika! Bu mesaj gerçek bir veritabanına bağlandığında diğer telefonlara da gidecek. 🚀");
+            document.getElementById('targetStatus').innerText = "Çevrimiçi";
+        }, 1500);
+    }, 1000);
 }
 
-function resetGame() {
-    initGame();
+function addMsgToBox(text, type) {
+    const msgBox = document.getElementById('msgBox');
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const msgHtml = `
+        <div class="bubble ${type}">
+            ${text}
+            <small style="display:block; font-size:0.7rem; text-align:right; margin-top:5px; color:#8696a0">${time} ✓✓</small>
+        </div>
+    `;
+    msgBox.innerHTML += msgHtml;
+    msgBox.scrollTop = msgBox.scrollHeight;
 }
 
-initGame();
+function receiveMsg(text) {
+    addMsgToBox(text, 'received');
+}
+
+// 4. ARAMA SİSTEMİ (GÖRÜNTÜLÜ ARAMA ARAYÜZÜ)
+function startCall(type) {
+    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+    document.getElementById('callWindow').classList.remove('hidden');
+    // Burada WebRTC bağlantısı başlatılabilir
+}
+
+function endCall() {
+    document.getElementById('callWindow').classList.add('hidden');
+}
+
+function showTyping() {
+    // Burada veritabanına "yazıyor..." durumu gönderilir
+}
