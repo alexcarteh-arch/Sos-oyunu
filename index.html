@@ -5,42 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SOS NEON ULTIMATE</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="scanline"></div>
     
     <div class="game-wrapper">
-        <h1 class="title">SOS</h1>
+        <h1 class="title">SOS PRO</h1>
         
         <div class="stats-container">
-            <div class="stat-card s-player">
-                <span class="label">P1 (S) - REÜTBE</span>
-                <span class="value" id="scoreS">MASTER</span>
-                <div class="career-progress"><div class="progress-fill" style="width: 75%;"></div></div>
-            </div>
-            <div class="stat-card o-player">
-                <span class="label">P2 (O) - REÜTBE</span>
-                <span class="value" id="scoreO">ELITE</span>
-                <div class="career-progress"><div class="progress-fill" style="width: 40%;"></div></div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="label">OYUNCU RÜTBESİ</span>
+                    <span class="level-badge">LVL <span id="lvl">1</span></span>
+                </div>
+                <span class="value" id="rankDisplay">ACEMİ</span>
+                <div class="career-progress"><div class="progress-fill" id="xpBar"></div></div>
             </div>
         </div>
 
-        <div class="grid" id="gameGrid">
-            <div class="slot s-mark">S</div>
-            <div class="slot o-mark">O</div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
+        <div class="score-row">
+            <div class="score-box s-color">S: <span id="scoreS">0</span></div>
+            <div class="score-box info-color" id="turnDisplay">S SIRASI</div>
+            <div class="score-box o-color">O: <span id="scoreO">0</span></div>
         </div>
 
-        <button class="control-btn" onclick="resetGame()">SYSTEM REBOOT</button>
+        <div class="grid" id="gameGrid"></div>
+
+        <div class="controls">
+            <button class="control-btn" onclick="resetGame()">SİSTEMİ SIFIRLA</button>
+        </div>
         
-        <div style="margin-top: 15px; font-size: 0.7rem; color: #444; text-transform: uppercase;">
-            Terminal Status: <span style="color: var(--accent-cyan);">Online</span> | Kernel: 5.15.0-SOS
+        <div class="footer-stats">
+            <span>XP: <span id="xpText">0</span>/100</span>
+            <span>TOPLAM GALİBİYET: <span id="winsText">0</span></span>
         </div>
     </div>
 
