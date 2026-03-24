@@ -1,0 +1,182 @@
+/* --- SOS NEON PRO - MODERN CSS --- */
+
+/* 1. Temel Ayarlar & Değişkenler (Renk Paleti) */
+:root {
+  --bg-color: #0a0e17; /* Çok Koyu Lacivert/Siyah */
+  --panel-bg: rgba(20, 26, 41, 0.8); /* Cam Efekti İçin Şeffaf Panel */
+  --neon-blue: #00f2ff; /* S oyuncusu için Turkuaz Neon */
+  --neon-pink: #ff0055; /* O oyuncusu için Pembe Neon */
+  --text-color: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --border-radius: 15px;
+  --transition: all 0.3s ease;
+  --font-family: 'Poppins', sans-serif; /* Modern Yazı Tipi */
+}
+
+/* 2. Hareketli Arka Plan Efekti */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #0a0e17, #1a253a, #0a0e17, #141a29);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  overflow: hidden; /* Telefon ekranında kaydırmayı engeller */
+}
+
+/* 3. Ana Konteyner (Glassmorphism) */
+.container {
+  background: var(--panel-bg);
+  backdrop-filter: blur(10px); /* Cam Bulanıklığı */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  text-align: center;
+  width: 90%;
+  max-width: 400px; /* Telefonlar için ideal genişlik */
+  position: relative;
+  z-index: 1;
+}
+
+/* 4. Başlık ve Skor Paneli */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, var(--neon-blue), var(--neon-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.score-board {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.player-score {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.player-s { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+.player-o { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
+
+/* 5. Oyun Tahtası (Grid) */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+/* 6. Hücreler (Cells) - En Kritik Görsel Alan */
+.cell {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  height: 100px; /* Telefon ekranı için kare hücreler */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hücreye Tıklama Efekti */
+.cell:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Hover Efekti (Telefonda dokunma öncesi hafif belirir) */
+.cell:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* S ve O Harflerinin Neon Renkleri */
+.cell.s {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+  animation: neonPulseS 1.5s infinite;
+}
+
+.cell.o {
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+  animation: neonPulseO 1.5s infinite;
+}
+
+/* Harfler İçin Nabız (Pulse) Animasyonları */
+@keyframes neonPulseS {
+  0%, 100% { text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); }
+  50% { text-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue), 0 0 40px var(--neon-blue); }
+}
+
+@keyframes neonPulseO {
+  0%, 100% { text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); }
+  50% { text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink), 0 0 40px var(--neon-pink); }
+}
+
+/* 7. Butonlar (Reset) */
+.btn {
+  background: transparent;
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+}
+
+.btn:hover {
+  background: var(--neon-blue);
+  color: var(--bg-color);
+  box-shadow: 0 0 20px var(--neon-blue);
+}
+
+/* 8. Kazanan Çizgisi Animasyonu */
+.winning-line {
+  position: absolute;
+  background: #ffffff;
+  box-shadow: 0 0 15px #ffffff, 0 0 30px #ffffff;
+  border-radius: 5px;
+  z-index: 2;
+  transition: all 0.5s ease;
+}
+
+/* 9. Kariyer Paneli (Gelecek İçin Hazırlık) */
+.career-panel {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+  }
