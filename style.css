@@ -1,204 +1,77 @@
-/* --- SOS NEON ULTIMATE EDITION --- */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
-
 :root {
-  --bg-deep: #02050a;
-  --accent-cyan: #00f2ff;
-  --accent-pink: #ff0055;
-  --accent-yellow: #fffe00;
-  --glass: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --neon-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
-  --glitch-speed: 0.3s;
+    --bg: #02050a;
+    --cyan: #00f2ff;
+    --pink: #ff0055;
+    --yellow: #fffe00;
+    --glass: rgba(255, 255, 255, 0.05);
 }
 
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
 
 body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-deep);
-  background-image: 
-    radial-gradient(circle at 50% 50%, #1a1f2e 0%, #02050a 100%),
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  background-size: 100% 100%, 100% 2px, 3px 100%;
-  font-family: 'Rajdhani', sans-serif;
-  color: #fff;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+    margin: 0; background: var(--bg);
+    font-family: 'Rajdhani', sans-serif;
+    color: white; height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+    overflow: hidden;
+    background-image: radial-gradient(circle at center, #1a1f2e 0%, #02050a 100%);
 }
 
-/* --- ANA KONTEYNER: CYBER-FRAME --- */
 .game-wrapper {
-  position: relative;
-  width: 95%;
-  max-width: 450px;
-  background: var(--glass);
-  backdrop-filter: blur(25px);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 30px 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.05);
-  overflow: hidden;
+    width: 92%; max-width: 420px;
+    background: var(--glass); backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 20px; border-radius: 24px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    position: relative;
 }
 
-/* Dekoratif Köşe Çizgileri */
-.game-wrapper::before, .game-wrapper::after {
-  content: '';
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--accent-cyan);
-}
-.game-wrapper::before { top: 0; left: 0; border-right: none; border-bottom: none; border-radius: 24px 0 0 0; }
-.game-wrapper::after { bottom: 0; right: 0; border-left: none; border-top: none; border-radius: 0 0 24px 0; }
-
-/* --- BAŞLIK: GLITCH EFEKTİ --- */
 .title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 3.5rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  margin: 0;
-  position: relative;
-  color: #fff;
-  text-shadow: 0.05em 0 0 var(--accent-pink), -0.025em -0.05em 0 var(--accent-cyan),
-               0.025em 0.05em 0 var(--accent-yellow);
-  animation: glitch 1s infinite;
+    font-family: 'Orbitron', sans-serif; font-size: 2.5rem;
+    margin: 0 0 15px 0; text-align: center;
+    background: linear-gradient(to right, var(--cyan), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(0,242,255,0.5));
 }
 
-@keyframes glitch {
-  0% { text-shadow: 0.05em 0 0 var(--accent-pink), -0.025em -0.05em 0 var(--accent-cyan); }
-  14% { text-shadow: 0.05em 0 0 var(--accent-pink), -0.025em -0.05em 0 var(--accent-cyan); }
-  15% { text-shadow: -0.05em -0.025em 0 var(--accent-pink), 0.025em 0.025em 0 var(--accent-cyan); }
-  49% { text-shadow: -0.05em -0.025em 0 var(--accent-pink), 0.025em 0.025em 0 var(--accent-cyan); }
-  50% { text-shadow: 0.025em 0.05em 0 var(--accent-pink), 0.05em 0 0 var(--accent-cyan); }
-  99% { text-shadow: 0.025em 0.05em 0 var(--accent-pink), 0.05em 0 0 var(--accent-cyan); }
-  100% { text-shadow: -0.025em 0 0 var(--accent-pink), -0.025em -0.025em 0 var(--accent-cyan); }
-}
+.stat-card { background: rgba(0,0,0,0.5); padding: 12px; border-radius: 15px; border: 1px solid var(--cyan); margin-bottom: 15px; }
+.stat-header { display: flex; justify-content: space-between; align-items: center; }
+.level-badge { background: var(--cyan); color: #000; padding: 2px 8px; border-radius: 5px; font-weight: 900; font-size: 0.8rem; }
+.value { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: #fff; text-shadow: 0 0 10px var(--cyan); }
 
-/* --- KARİYER SKOR PANELI --- */
-.stats-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin: 25px 0;
-}
+.career-progress { width: 100%; height: 8px; background: #111; border-radius: 4px; margin-top: 10px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--pink)); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-.stat-card {
-  background: rgba(0, 0, 0, 0.4);
-  border-left: 4px solid var(--accent-cyan);
-  padding: 10px;
-  border-radius: 8px;
-  text-align: left;
-}
+.score-row { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 10px; margin-bottom: 15px; }
+.score-box { background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; text-align: center; font-weight: bold; font-family: 'Orbitron'; }
+.s-color { color: var(--cyan); border-bottom: 2px solid var(--cyan); }
+.o-color { color: var(--pink); border-bottom: 2px solid var(--pink); }
+.info-color { color: var(--yellow); font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
 
-.stat-card.o-player { border-left-color: var(--accent-pink); }
-
-.label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
-.value { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; display: block; }
-
-/* --- OYUN TAHTASI: GRID --- */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 30px;
-}
-
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
 .slot {
-  aspect-ratio: 1/1;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2.8rem;
-  font-weight: 900;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
+    aspect-ratio: 1; background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+    display: flex; justify-content: center; align-items: center;
+    font-family: 'Orbitron', sans-serif; font-size: 2.8rem; font-weight: 900;
+    cursor: pointer; transition: 0.2s;
 }
+.slot:active { transform: scale(0.9); background: rgba(255,255,255,0.1); }
+.slot.s-mark { color: var(--cyan); text-shadow: 0 0 15px var(--cyan); animation: pop 0.3s; }
+.slot.o-mark { color: var(--pink); text-shadow: 0 0 15px var(--pink); animation: pop 0.3s; }
 
-.slot:active { transform: scale(0.9); }
+@keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
 
-.slot.s-mark {
-  color: var(--accent-cyan);
-  text-shadow: 0 0 15px var(--accent-cyan), 0 0 30px var(--accent-cyan);
-  box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.2);
-}
-
-.slot.o-mark {
-  color: var(--accent-pink);
-  text-shadow: 0 0 15px var(--accent-pink), 0 0 30px var(--accent-pink);
-  box-shadow: inset 0 0 15px rgba(255, 0, 85, 0.2);
-}
-
-/* --- KARİYER SİSTEMİ: LEVEL BAR --- */
-.career-progress {
-  width: 100%;
-  height: 6px;
-  background: #111;
-  border-radius: 3px;
-  margin-top: 10px;
-  position: relative;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 45%; /* Dinamik olacak */
-  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-pink));
-  box-shadow: 0 0 10px var(--accent-cyan);
-  border-radius: 3px;
-  transition: width 1s ease-in-out;
-}
-
-/* --- BUTONLAR: NEON CLICK --- */
 .control-btn {
-  width: 100%;
-  padding: 15px;
-  background: transparent;
-  border: 2px solid var(--accent-cyan);
-  color: var(--accent-cyan);
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  border-radius: 12px;
-  cursor: pointer;
-  position: relative;
-  transition: 0.3s;
-  overflow: hidden;
+    width: 100%; padding: 14px; background: transparent;
+    border: 2px solid var(--pink); color: var(--pink);
+    font-family: 'Orbitron'; font-weight: bold; border-radius: 12px;
+    cursor: pointer; transition: 0.3s; letter-spacing: 2px;
 }
+.control-btn:hover { background: var(--pink); color: #fff; box-shadow: 0 0 20px var(--pink); }
 
-.control-btn:hover {
-  background: var(--accent-cyan);
-  color: var(--bg-deep);
-  box-shadow: 0 0 30px var(--accent-cyan);
-}
-
-/* Scanline Efekti (Eski monitör çizgileri) */
 .scanline {
-  width: 100%;
-  height: 100px;
-  z-index: 10;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.05) 10%, rgba(0, 0, 0, 0.1) 100%);
-  opacity: 0.1;
-  position: absolute;
-  bottom: 100%;
-  animation: scanline 8s linear infinite;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%; pointer-events: none; z-index: 100;
 }
-
-@keyframes scanline {
-  0% { bottom: 100%; }
-  100% { bottom: -100%; }
-  }
