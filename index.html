@@ -3,42 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOS NEON ULTIMATE</title>
+    <title>NeonChat Ultimate</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="scanline"></div>
-    
-    <div class="game-wrapper">
-        <h1 class="title">SOS PRO</h1>
-        
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-header">
-                    <span class="label">OYUNCU RÜTBESİ</span>
-                    <span class="level-badge">LVL <span id="lvl">1</span></span>
+<body class="dark-mode">
+
+    <div id="loginScreen" class="full-screen">
+        <div class="auth-container">
+            <h1 class="logo-auth">NeonChat</h1>
+            <input type="text" id="usernameInput" placeholder="Kullanıcı Adı..." autocomplete="off">
+            <input type="password" id="passwordInput" placeholder="Şifre..." autocomplete="off">
+            <button class="primary-btn" onclick="registerUser()">KAYIT OL</button>
+            <button class="secondary-btn" onclick="loginUser()">GİRİŞ YAP</button>
+            <small id="authStatus"></small>
+        </div>
+    </div>
+
+    <div id="appScreen" class="main-container hidden">
+        <header class="app-header">
+            <div class="header-top">
+                <span class="logo">NeonChat</span>
+                <div class="header-icons">
+                    <button class="icon-btn" onclick="openProfile()">👤</button>
+                    <button class="icon-btn" onclick="openSettings()">⚙️</button>
                 </div>
-                <span class="value" id="rankDisplay">ACEMİ</span>
-                <div class="career-progress"><div class="progress-fill" id="xpBar"></div></div>
             </div>
-        </div>
+            <nav class="app-tabs">
+                <div class="tab active" onclick="switchTab('chats')">SOHBETLER</div>
+                <div class="tab" onclick="switchTab('status')">DURUM</div>
+                <div class="tab" onclick="switchTab('calls')">ARAMALAR</div>
+            </nav>
+        </header>
 
-        <div class="score-row">
-            <div class="score-box s-color">S: <span id="scoreS">0</span></div>
-            <div class="score-box info-color" id="turnDisplay">S SIRASI</div>
-            <div class="score-box o-color">O: <span id="scoreO">0</span></div>
-        </div>
+        <main class="content-area" id="mainContent">
+            <div class="chat-list" id="chats">
+                <div class="chat-item" onclick="openChat('Alex Pro')">
+                    <div class="avatar-wrapper">
+                        <img src="https://i.pravatar.cc/100?u=1" alt="">
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div class="chat-info">
+                        <div class="chat-row">
+                            <span class="chat-name">Alex Pro</span>
+                            <span class="chat-time">14:20</span>
+                        </div>
+                        <div class="chat-row">
+                            <span class="chat-msg"><i>Yazıyor...</i></span>
+                            <span class="unread-count">3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
-        <div class="grid" id="gameGrid"></div>
+    <div id="chatWindow" class="chat-window hidden">
+        <header class="chat-window-header">
+            <button class="back-btn" onclick="closeChat()">←</button>
+            <div class="user-meta" onclick="openContactInfo()">
+                <span id="targetName">Kullanıcı</span>
+                <small id="targetStatus">Çevrimiçi</small>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="startCall('voice')">📞</button>
+                <button class="icon-btn" onclick="startCall('video')">📹</button>
+            </div>
+        </header>
+        <div class="messages-container" id="msgBox"></div>
+        <footer class="input-row">
+            <button class="icon-btn attach-btn">+</button>
+            <input type="text" id="msgInput" placeholder="Mesaj yazın..." oninput="showTyping()">
+            <button id="sendBtn" onclick="sendMsg()">➤</button>
+        </footer>
+    </div>
 
-        <div class="controls">
-            <button class="control-btn" onclick="resetGame()">SİSTEMİ SIFIRLA</button>
+    <div id="callWindow" class="call-window hidden">
+        <div class="remote-video">
+            <img src="https://i.pravatar.cc/300?u=1" alt="" class="caller-avatar">
+            <span>Bağlanıyor...</span>
         </div>
-        
-        <div class="footer-stats">
-            <span>XP: <span id="xpText">0</span>/100</span>
-            <span>TOPLAM GALİBİYET: <span id="winsText">0</span></span>
+        <div class="local-video">Sen</div>
+        <div class="call-controls">
+            <button class="call-btn end-call" onclick="endCall()">🔇</button>
+            <button class="call-btn hangup-call" onclick="endCall()">挂</button>
         </div>
     </div>
 
