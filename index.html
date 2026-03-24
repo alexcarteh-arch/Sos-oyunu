@@ -3,226 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOS ULTRA NEON</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #020617;
-            --s-color: #00f2ff;
-            --o-color: #ff007b;
-            --neon-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
-        }
-
-        body {
-            background: var(--bg);
-            color: white;
-            font-family: 'Orbitron', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
-        }
-
-        .stats {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .stat-box {
-            background: rgba(255,255,255,0.05);
-            padding: 10px 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-        }
-
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 90px);
-            grid-template-rows: repeat(3, 90px);
-            gap: 12px;
-            perspective: 1000px;
-        }
-
-        .cell {
-            width: 90px;
-            height: 90px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .cell:hover {
-            background: rgba(0, 242, 255, 0.1);
-            transform: translateZ(10px);
-            border-color: var(--s-color);
-        }
-
-        .cell.s { color: var(--s-color); text-shadow: 0 0 20px var(--s-color); }
-        .cell.o { color: var(--o-color); text-shadow: 0 0 20px var(--o-color); }
-
-        .controls {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .btn {
-            background: transparent;
-            border: 1px solid var(--s-color);
-            color: var(--s-color);
-            padding: 10px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Orbitron';
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-
-        .btn:hover {
-            background: var(--s-color);
-            color: var(--bg);
-            box-shadow: 0 0 20px var(--s-color);
-        }
-
-        #status {
-            color: var(--s-color);
-            margin-bottom: 15px;
-            height: 20px;
-            font-size: 0.9rem;
-        }
-
-        .winner-line {
-            animation: pulse 1s infinite;
-            background: rgba(255, 255, 255, 0.2) !important;
-        }
-
-        @keyframes pulse {
-            50% { opacity: 0.5; }
-        }
-    </style>
+    <title>SOS NEON ULTIMATE</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="scanline"></div>
+    
+    <div class="game-wrapper">
+        <h1 class="title">SOS</h1>
+        
+        <div class="stats-container">
+            <div class="stat-card s-player">
+                <span class="label">P1 (S) - REÜTBE</span>
+                <span class="value" id="scoreS">MASTER</span>
+                <div class="career-progress"><div class="progress-fill" style="width: 75%;"></div></div>
+            </div>
+            <div class="stat-card o-player">
+                <span class="label">P2 (O) - REÜTBE</span>
+                <span class="value" id="scoreO">ELITE</span>
+                <div class="career-progress"><div class="progress-fill" style="width: 40%;"></div></div>
+            </div>
+        </div>
 
-    <div id="status">HAZIR MISIN?</div>
+        <div class="grid" id="gameGrid">
+            <div class="slot s-mark">S</div>
+            <div class="slot o-mark">O</div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+        </div>
 
-    <div class="stats">
-        <div class="stat-box">S (SEN): <span id="scoreS">0</span></div>
-        <div class="stat-box">O (BOT): <span id="scoreO">0</span></div>
+        <button class="control-btn" onclick="resetGame()">SYSTEM REBOOT</button>
+        
+        <div style="margin-top: 15px; font-size: 0.7rem; color: #444; text-transform: uppercase;">
+            Terminal Status: <span style="color: var(--accent-cyan);">Online</span> | Kernel: 5.15.0-SOS
+        </div>
     </div>
 
-    <div class="board" id="board">
-        <div class="cell" data-index="0"></div>
-        <div class="cell" data-index="1"></div>
-        <div class="cell" data-index="2"></div>
-        <div class="cell" data-index="3"></div>
-        <div class="cell" data-index="4"></div>
-        <div class="cell" data-index="5"></div>
-        <div class="cell" data-index="6"></div>
-        <div class="cell" data-index="7"></div>
-        <div class="cell" data-index="8"></div>
-    </div>
-
-    <div class="controls">
-        <button class="btn" onclick="resetGame()">YENİDEN BAŞLAT</button>
-        <div style="font-size: 0.7rem; opacity: 0.5;">BOT MODU AKTİF</div>
-    </div>
-
-    <script>
-        const cells = document.querySelectorAll('.cell');
-        const statusText = document.getElementById('status');
-        let board = ["", "", "", "", "", "", "", "", ""];
-        let gameActive = true;
-        let scoreS = 0, scoreO = 0;
-
-        const winPatterns = [
-            [0,1,2], [3,4,5], [6,7,8],
-            [0,3,6], [1,4,7], [2,5,8],
-            [0,4,8], [2,4,6]
-        ];
-
-        cells.forEach(cell => cell.addEventListener('click', () => makeMove(cell)));
-
-        function makeMove(cell) {
-            const idx = cell.dataset.index;
-            if (board[idx] !== "" || !gameActive) return;
-
-            // Oyuncu Hamlesi (S)
-            board[idx] = "S";
-            cell.innerText = "S";
-            cell.classList.add('s');
-            
-            if (checkWin("S")) return;
-            if (board.includes("")) {
-                gameActive = false;
-                statusText.innerText = "BOT DÜŞÜNÜYOR...";
-                setTimeout(botMove, 600);
-            } else {
-                statusText.innerText = "BERABERE!";
-            }
-        }
-
-        function botMove() {
-            let emptyIndices = board.map((v, i) => v === "" ? i : null).filter(v => v !== null);
-            if (emptyIndices.length > 0) {
-                // Basit bir Bot Zekası: Rastgele yer seçer
-                let randomIdx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-                board[randomIdx] = "O";
-                cells[randomIdx].innerText = "O";
-                cells[randomIdx].classList.add('o');
-                
-                if (!checkWin("O")) {
-                    gameActive = true;
-                    statusText.innerText = "SENİN SIRAN!";
-                }
-            }
-        }
-
-        function checkWin(player) {
-            for (let pattern of winPatterns) {
-                if (pattern.every(idx => board[idx] === player)) {
-                    statusText.innerText = `OYUNCU ${player} KAZANDI!`;
-                    highlightWin(pattern);
-                    player === "S" ? scoreS++ : scoreO++;
-                    updateScores();
-                    gameActive = false;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function highlightWin(pattern) {
-            pattern.forEach(idx => cells[idx].classList.add('winner-line'));
-        }
-
-        function updateScores() {
-            document.getElementById('scoreS').innerText = scoreS;
-            document.getElementById('scoreO').innerText = scoreO;
-        }
-
-        function resetGame() {
-            board = ["", "", "", "", "", "", "", "", ""];
-            gameActive = true;
-            statusText.innerText = "YENİ OYUN BAŞLADI";
-            cells.forEach(cell => {
-                cell.innerText = "";
-                cell.classList.remove('s', 'o', 'winner-line');
-            });
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
